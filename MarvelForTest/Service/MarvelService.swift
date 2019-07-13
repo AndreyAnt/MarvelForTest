@@ -10,7 +10,7 @@ import Foundation
 import PromiseKit
 
 protocol MarvelDataProvider {
-    func fetchCharacters() -> Promise<[MarvelCharacter]>
+    func fetchCharacters(offset: Int) -> Promise<[MarvelCharacter]>
 }
 
 class MarvelService: MarvelDataProvider {
@@ -21,16 +21,16 @@ class MarvelService: MarvelDataProvider {
     private let host = "gateway.marvel.com"
     private let baseEndpoint = "https://gateway.marvel.com/"
     
-    public func fetchCharacters() -> Promise<[MarvelCharacter]> {
+    public func fetchCharacters(offset: Int) -> Promise<[MarvelCharacter]> {
         let method = "/v1/public/characters"
-        let request = prepareRequest(for: method)
+        let request = prepareRequest(for: method, offset: offset)
         return URLSession.shared.dataTask(.promise, with: request)
             .validate()
             .map { try JSONDecoder().decode(CharactersResponse.self, from: $0.data) }
             .map { $0.data.characters }
     }
     
-    private func prepareRequest(for method: String) -> URLRequest {
+    private func prepareRequest(for method: String, offset: Int) -> URLRequest {
         var urlComponents = URLComponents()
         urlComponents.scheme = scheme
         urlComponents.host = host
@@ -40,6 +40,7 @@ class MarvelService: MarvelDataProvider {
             URLQueryItem(name: "apikey", value: publicKey),
             URLQueryItem(name: "ts", value: timestamp),
             URLQueryItem(name: "hash", value: calculateHash(for: timestamp)),
+            URLQueryItem(name: "offset", value: String(offset))
         ]
         
         guard let url = urlComponents.url else { preconditionFailure("Check your request method properly") }
@@ -51,7 +52,7 @@ class MarvelService: MarvelDataProvider {
         return request
     }
     
-    private func generateTimestamp() -> String {
+    private func generateTimestamp() -> TimeStamp {
         return String(Date().timeIntervalSince1970)
     }
     

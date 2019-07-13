@@ -38,7 +38,7 @@ extension CharactersController: ASTableDelegate {
     func tableNode(_ tableNode: ASTableNode, willBeginBatchFetchWith context: ASBatchContext) {
         
         dataProvider
-            .fetchCharacters()
+            .fetchCharacters(offset: characters.count)
             .done { characters in
                 print("\(characters.count) characters fetched.")
                 context.completeBatchFetching(true)
