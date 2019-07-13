@@ -39,8 +39,9 @@ extension CharactersController: ASTableDelegate {
         
         dataProvider
             .fetchCharacters(offset: characters.count)
-            .done { characters in
-                print("\(characters.count) characters fetched.")
+            .done { [weak self] characters in
+                guard let self = self else { return }
+                self.insert(characters)
                 context.completeBatchFetching(true)
             }.catch { error in
                 print(error)
@@ -63,22 +64,18 @@ extension CharactersController: ASTableDelegate {
 
 extension CharactersController: ASTableDataSource {
     func numberOfSections(in tableNode: ASTableNode) -> Int {
-        return 1
+        return characters.count
     }
     
     func tableNode(_ tableNode: ASTableNode, numberOfRowsInSection section: Int) -> Int {
-        return characters.count
+        return 1
     }
     
     func tableNode(_ tableNode: ASTableNode, nodeBlockForRowAt indexPath: IndexPath) -> ASCellNodeBlock {
         
-        let characterName = characters[indexPath.row].name
+        let character = characters[indexPath.section]
         let cellNodeBlock = { () -> ASCellNode in
-            let node = ASCellNode(viewBlock: { () -> UIView in
-                let label = UILabel()
-                label.text = characterName
-                return label
-            })
+            let node = CharacterNode(character: character)
             return node
         }
         

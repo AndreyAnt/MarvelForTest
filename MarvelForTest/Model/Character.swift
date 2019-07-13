@@ -87,6 +87,13 @@ struct Thumbnail: Codable {
     let path: String
     let thumbnailExtension: Extension
     
+    var url: URL? {
+        let securePath = path.replacingOccurrences(of: "http", with: "https")
+        let urlString = securePath + "." + thumbnailExtension.rawValue
+        print(urlString)
+        return URL(string: urlString)
+    }
+    
     enum CodingKeys: String, CodingKey {
         case path
         case thumbnailExtension = "extension"
