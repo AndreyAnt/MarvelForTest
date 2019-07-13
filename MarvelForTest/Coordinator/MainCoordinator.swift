@@ -17,7 +17,9 @@ class MainCoordinator: CoordinatorType {
     }
     
     func start() {
-        let viewController = CharactersController()
+        
+        let marvelService = MarvelService()
+        let viewController = CharactersController(dataProvider: marvelService)
         navigationController.pushViewController(viewController, animated: true)
     }
 }

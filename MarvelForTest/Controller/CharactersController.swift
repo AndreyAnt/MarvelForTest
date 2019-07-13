@@ -15,8 +15,11 @@ class CharactersController: ASViewController<ASDisplayNode> {
     var tableNode: ASTableNode {
         return node as! ASTableNode
     }
+    private let dataProvider: MarvelDataProvider
     
-    init() {
+    init(dataProvider: MarvelDataProvider) {
+        self.dataProvider = dataProvider
+        
         let tableNode = ASTableNode(style: .plain)
         super.init(node: tableNode)
         

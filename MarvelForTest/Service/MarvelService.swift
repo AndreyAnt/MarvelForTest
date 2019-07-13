@@ -9,7 +9,11 @@
 import Foundation
 import PromiseKit
 
-class MarvelService {
+protocol MarvelDataProvider {
+    func fetchCharacters() -> Promise<[MarvelCharacter]>
+}
+
+class MarvelService: MarvelDataProvider {
     private let publicKey = "1e5fefd2498c35af0c1de75f03cb9eb0"
     private let baseEndpoint = "https://gateway.marvel.com/"
     
