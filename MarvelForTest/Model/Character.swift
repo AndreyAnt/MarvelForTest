@@ -19,11 +19,16 @@ struct CharactersResponse: Codable {
 // MARK: - DataClass
 struct DataClass: Codable {
     let offset, limit, total, count: Int
-    let results: [Result]
+    let characters: [MarvelCharacter]
+    
+    enum CodingKeys: String, CodingKey {
+        case offset, limit, total, count
+        case characters = "results"
+    }
 }
 
 // MARK: - Result
-struct Result: Codable {
+struct MarvelCharacter: Codable {
     let id: Int
     let name, resultDescription: String
     let modified: Date
