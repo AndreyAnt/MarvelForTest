@@ -16,6 +16,7 @@ class CharactersController: ASViewController<ASDisplayNode> {
         return node as! ASTableNode
     }
     private let dataProvider: MarvelDataProvider
+    private var characters = [MarvelCharacter]()
     
     init(dataProvider: MarvelDataProvider) {
         self.dataProvider = dataProvider
@@ -34,7 +35,30 @@ class CharactersController: ASViewController<ASDisplayNode> {
 }
 
 extension CharactersController: ASTableDelegate {
+    func tableNode(_ tableNode: ASTableNode, willBeginBatchFetchWith context: ASBatchContext) {
+        
+        dataProvider
+            .fetchCharacters()
+            .done { characters in
+                print("\(characters.count) characters fetched.")
+                context.completeBatchFetching(true)
+            }.catch { error in
+                print(error)
+                context.completeBatchFetching(true)
+        }
+    }
     
+    private func insert(_ newCharacters: [MarvelCharacter]) {
+        
+        var indexSet = IndexSet()
+        let newNumberOfSections = characters.count + newCharacters.count
+        for section in characters.count ..< newNumberOfSections {
+            indexSet.insert(section)
+        }
+        
+        characters.append(contentsOf: newCharacters)
+        tableNode.insertSections(indexSet, with: .automatic)
+    }
 }
 
 extension CharactersController: ASTableDataSource {
@@ -43,13 +67,18 @@ extension CharactersController: ASTableDataSource {
     }
     
     func tableNode(_ tableNode: ASTableNode, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return characters.count
     }
     
     func tableNode(_ tableNode: ASTableNode, nodeBlockForRowAt indexPath: IndexPath) -> ASCellNodeBlock {
+        
+        let characterName = characters[indexPath.row].name
         let cellNodeBlock = { () -> ASCellNode in
-            let node = ASCellNode()
-            
+            let node = ASCellNode(viewBlock: { () -> UIView in
+                let label = UILabel()
+                label.text = characterName
+                return label
+            })
             return node
         }
         

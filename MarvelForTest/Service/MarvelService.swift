@@ -18,8 +18,19 @@ class MarvelService: MarvelDataProvider {
     private let baseEndpoint = "https://gateway.marvel.com/"
     
     public func fetchCharacters() -> Promise<[MarvelCharacter]> {
-        let path = "/v1/public/characters"
+        let method = "/v1/public/characters"
+        let request = prepareRequest(for: method)
+        return URLSession.shared.dataTask(.promise, with: request)
+            .validate()
+            .map { try JSONDecoder().decode(CharactersResponse.self, from: $0.data) }
+            .map { $0.data.characters }
+    }
+    
+    private func prepareRequest(for method: String) -> URLRequest {
+        guard let url = URL(string: baseEndpoint + method) else { preconditionFailure("Check your request method properly") }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
         
-        return Promise(error: PMKError.emptySequence)
+        return request
     }
 }
