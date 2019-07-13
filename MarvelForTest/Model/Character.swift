@@ -72,14 +72,6 @@ struct Stories: Codable {
 struct StoriesItem: Codable {
     let resourceURI: String
     let name: String
-    let type: ItemType
-}
-
-enum ItemType: String, Codable {
-    case cover = "cover"
-    case empty = ""
-    case interiorStory = "interiorStory"
-    case pinup = "pinup"
 }
 
 // MARK: - Thumbnail
@@ -90,7 +82,6 @@ struct Thumbnail: Codable {
     var url: URL? {
         let securePath = path.replacingOccurrences(of: "http", with: "https")
         let urlString = securePath + "." + thumbnailExtension.rawValue
-        print(urlString)
         return URL(string: urlString)
     }
     

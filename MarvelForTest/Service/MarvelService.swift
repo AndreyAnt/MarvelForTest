@@ -46,7 +46,6 @@ class MarvelService: MarvelDataProvider {
         guard let url = urlComponents.url else { preconditionFailure("Check your request method properly") }
         
         var request = URLRequest(url: url)
-        print(url)
         request.httpMethod = "GET"
         
         return request
