@@ -17,6 +17,7 @@
 		CEA3935B22D9FB03000CEB2A /* CharactersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3935A22D9FB03000CEB2A /* CharactersController.swift */; };
 		CEA3935D22D9FEF9000CEB2A /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3935C22D9FEF9000CEB2A /* MainCoordinator.swift */; };
 		CEA3935F22D9FF1E000CEB2A /* CoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3935E22D9FF1E000CEB2A /* CoordinatorType.swift */; };
+		CEA3936522DA2F9B000CEB2A /* MD5Hasher.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3936422DA2F9B000CEB2A /* MD5Hasher.swift */; };
 		F00E992C293285185F106ECA /* Pods_MarvelForTestTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2DE8D3060A153389DA804D /* Pods_MarvelForTestTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 		CEA3935A22D9FB03000CEB2A /* CharactersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersController.swift; sourceTree = "<group>"; };
 		CEA3935C22D9FEF9000CEB2A /* MainCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		CEA3935E22D9FF1E000CEB2A /* CoordinatorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinatorType.swift; sourceTree = "<group>"; };
+		CEA3936422DA2F9B000CEB2A /* MD5Hasher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MD5Hasher.swift; sourceTree = "<group>"; };
 		CF2DE8D3060A153389DA804D /* Pods_MarvelForTestTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MarvelForTestTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -116,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				CEA3933522D9EEE9000CEB2A /* AppDelegate.swift */,
+				CEA3936422DA2F9B000CEB2A /* MD5Hasher.swift */,
 				CEA3936022DA019F000CEB2A /* Coordinator */,
 				CEA3936122DA01B0000CEB2A /* Controller */,
 				CEA3936222DA01B8000CEB2A /* Service */,
@@ -336,6 +339,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEA3936522DA2F9B000CEB2A /* MD5Hasher.swift in Sources */,
 				CEA3935622D9F25D000CEB2A /* MarvelService.swift in Sources */,
 				CEA3935B22D9FB03000CEB2A /* CharactersController.swift in Sources */,
 				CEA3935F22D9FF1E000CEB2A /* CoordinatorType.swift in Sources */,
