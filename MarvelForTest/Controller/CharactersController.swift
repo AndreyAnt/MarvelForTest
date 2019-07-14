@@ -19,6 +19,13 @@ class CharactersController: ASViewController<ASDisplayNode> {
     var tableNode: ASTableNode {
         return node as! ASTableNode
     }
+    private lazy var activityIndicatorView: UIActivityIndicatorView = {
+        let indicatorView = UIActivityIndicatorView(style: .whiteLarge)
+        indicatorView.backgroundColor = .lightGray
+        indicatorView.layer.cornerRadius = 3
+        indicatorView.layer.masksToBounds = true
+        return indicatorView
+    }()
     public weak var delegate: CharactersControllerDelegate?
     private let dataProvider: MarvelDataProvider
     private var characters = [MarvelCharacter]()
@@ -32,10 +39,22 @@ class CharactersController: ASViewController<ASDisplayNode> {
         self.tableNode.delegate = self
         self.tableNode.dataSource = self
         self.tableNode.allowsSelection = true
+        self.tableNode.view.addSubview(activityIndicatorView)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // Center the activity indicator view
+        let bounds = tableNode.bounds
+        activityIndicatorView.frame.origin = CGPoint(
+            x: (bounds.width - activityIndicatorView.frame.width) / 2.0,
+            y: (bounds.height - activityIndicatorView.frame.height) / 2.0
+        )
     }
 }
 
@@ -48,17 +67,23 @@ extension CharactersController: ASTableDelegate {
     }
     
     func tableNode(_ tableNode: ASTableNode, willBeginBatchFetchWith context: ASBatchContext) {
+        DispatchQueue.main.async {
+            self.activityIndicatorView.startAnimating()
+        }
         
         dataProvider
             .fetchCharacters(offset: characters.count)
-            .done { [weak self] characters in
+            .ensure { [weak self] in
+                guard let self = self else { return }
+                self.activityIndicatorView.stopAnimating()
+            }.done { [weak self] characters in
                 guard let self = self else { return }
                 self.insert(characters)
                 context.completeBatchFetching(true)
             }.catch { error in
                 print(error)
                 context.completeBatchFetching(true)
-        }
+            }
     }
     
     private func insert(_ newCharacters: [MarvelCharacter]) {

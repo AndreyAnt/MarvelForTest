@@ -18,7 +18,9 @@ public enum Constants {
     static let titleHeight: CGFloat = 50
     
     static let nameFont: [NSAttributedString.Key: Any] = [.font : UIFont.systemFont(ofSize: 32, weight: .bold),
-                                                        .foregroundColor: UIColor.white]
+                                                          .strokeColor: UIColor.black,
+                                                          .strokeWidth: -3,
+                                                          .foregroundColor: UIColor.white]
     
     static let descriptionFont: [NSAttributedString.Key: Any] = [.font : UIFont.systemFont(ofSize: 20, weight: .regular),
     .foregroundColor: UIColor.black]

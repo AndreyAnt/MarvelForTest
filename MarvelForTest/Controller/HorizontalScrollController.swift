@@ -37,7 +37,6 @@ class HorizontalScrollController<T: Fetchable>: ASViewController<ASDisplayNode>,
     
     override func viewDidLoad() {
         dataProvider
-//            .fetchComics(for: character)
             .fetch(T.self, for: character)
             .done { [weak self] displayable in
                 guard let self = self else { return }
