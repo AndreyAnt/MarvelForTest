@@ -41,6 +41,16 @@ class MarvelService: MarvelDataProvider {
             .map { $0.data.results }
     }
     
+    public func fetchSeriess(for character: MarvelCharacter) -> Promise<[Series]> {
+        let method = "/v1/public/characters/\(character.id)/series"
+        let request = prepareRequest(for: method, offset: 0)
+        
+        return URLSession.shared.dataTask(.promise, with: request)
+            .validate()
+            .map { try JSONDecoder().decode(SeriesResponse.self, from: $0.data) }
+            .map { $0.data.results }
+    }
+    
     private func prepareRequest(for method: String, offset: Int) -> URLRequest {
         var urlComponents = URLComponents()
         urlComponents.scheme = scheme

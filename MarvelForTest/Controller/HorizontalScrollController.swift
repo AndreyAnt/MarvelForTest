@@ -1,5 +1,5 @@
 //
-//  ComicsController.swift
+//  HorizontalScrollController.swift
 //  MarvelForTest
 //
 //  Created by user on 13/07/2019.
@@ -9,11 +9,11 @@
 import Foundation
 import AsyncDisplayKit
 
-class ComicsController: ASViewController<ASDisplayNode> {
+class HorizontalScrollController: ASViewController<ASDisplayNode> {
     var collectionNode: ASCollectionNode {
         return node as! ASCollectionNode
     }
-    private var comics = [Comics]()
+    private var displayables = [Displayable]()
     private let character: MarvelCharacter
     private let dataProvider: MarvelDataProvider
     
@@ -37,27 +37,27 @@ class ComicsController: ASViewController<ASDisplayNode> {
     override func viewDidLoad() {
         dataProvider
             .fetchComics(for: character)
-            .done { [weak self] comics in
+            .done { [weak self] displayable in
                 guard let self = self else { return }
-                self.insert(comics)
+                self.insert(displayable)
             }.catch { error in
                 print(error)
         }
     }
     
-    private func insert(_ newComics: [Comics]) {
+    private func insert(_ newDisplayables: [Displayable]) {
         var indexPaths = [IndexPath]()
-        let newNumberOfSections = comics.count + newComics.count
-        for item in comics.count ..< newNumberOfSections {
+        let newNumberOfSections = displayables.count + newDisplayables.count
+        for item in displayables.count ..< newNumberOfSections {
             indexPaths.append(IndexPath(item: item, section: 0))
         }
         
-        comics.append(contentsOf: newComics)
+        displayables.append(contentsOf: newDisplayables)
         collectionNode.insertItems(at: indexPaths)
     }
 }
 
-extension ComicsController: ASCollectionDelegate {
+extension HorizontalScrollController: ASCollectionDelegate {
     func collectionNode(_ collectionNode: ASCollectionNode, constrainedSizeForItemAt indexPath: IndexPath) -> ASSizeRange {
         let height = collectionNode.view.bounds.height
         let width = collectionNode.view.bounds.width/2
@@ -71,15 +71,15 @@ extension ComicsController: ASCollectionDelegate {
     }
 }
 
-extension ComicsController: ASCollectionDataSource {
+extension HorizontalScrollController: ASCollectionDataSource {
     func collectionNode(_ collectionNode: ASCollectionNode, numberOfItemsInSection section: Int) -> Int {
-        return comics.count
+        return displayables.count
     }
     
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForItemAt indexPath: IndexPath) -> ASCellNodeBlock {
-        let comics = self.comics[indexPath.row]
+        let displayable = self.displayables[indexPath.row]
         return { () -> ASCellNode in
-            let node = ComicsNode(comics: comics)
+            let node = DisplayableNode(displayable: displayable)
             return node
         }
     }

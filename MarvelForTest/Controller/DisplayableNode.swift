@@ -1,5 +1,5 @@
 //
-//  ComicsNode.swift
+//  DisplayableNode.swift
 //  MarvelForTest
 //
 //  Created by user on 13/07/2019.
@@ -9,25 +9,25 @@
 import Foundation
 import AsyncDisplayKit
 
-class ComicsNode: ASCellNode {
-    private let comics: Comics
+class DisplayableNode: ASCellNode {
+    private let displayable: Displayable
     private let nameNode = ASTextNode()
     private let avatarImageNode = ASNetworkImageNode()
     
-    init(comics: Comics) {
-        self.comics = comics
+    init(displayable: Displayable) {
+        self.displayable = displayable
         
         super.init()
         setupSubnodes()
     }
     
     private func setupSubnodes() {
-        nameNode.attributedText = NSAttributedString(string: comics.title, attributes: [.font : UIFont.systemFont(ofSize: 16)])
+        nameNode.attributedText = NSAttributedString(string: displayable.title, attributes: [.font : UIFont.systemFont(ofSize: 16)])
         nameNode.backgroundColor = .white
         nameNode.maximumNumberOfLines = 2
         addSubnode(nameNode)
         
-        avatarImageNode.url = comics.thumbnail.url
+        avatarImageNode.url = displayable.thumbnail.url
         avatarImageNode.shouldRenderProgressImages = true
         avatarImageNode.contentMode = .scaleAspectFit
         addSubnode(avatarImageNode)

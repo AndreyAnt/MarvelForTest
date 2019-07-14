@@ -66,7 +66,7 @@ extension CharacterDetailController: ASTableDataSource {
     func tableNode(_ tableNode: ASTableNode, nodeForRowAt indexPath: IndexPath) -> ASCellNode {
         
         let node = ASCellNode(viewControllerBlock: { () -> UIViewController in
-            return ComicsController(character: self.character, dataProvider: self.dataProvider)
+            return HorizontalScrollController(character: self.character, dataProvider: self.dataProvider)
         })
         node.style.maxSize = CGSize(width: 200, height: 350)
         

@@ -1,29 +1,29 @@
 //
-//  ComicsResponse.swift
+//  SeriesResponse.swift
 //  MarvelForTest
 //
-//  Created by user on 13/07/2019.
+//  Created by user on 14/07/2019.
 //  Copyright © 2019 AAA. All rights reserved.
 //
 
 import Foundation
 
-// MARK: - ComicsResponse
-struct ComicsResponse: Codable {
+// MARK: - SeriesResponse
+struct SeriesResponse: Codable {
     let code: Int
     let status, copyright, attributionText, attributionHTML: String
     let etag: String
-    let data: ComicsData
+    let data: SeriesData
 }
 
 // MARK: - DataClass
-struct ComicsData: Codable {
+struct SeriesData: Codable {
     let offset, limit, total, count: Int
-    let results: [Comics]
+    let results: [Series]
 }
 
 // MARK: - Result
-struct Comics: Codable, Displayable {
+struct Series: Codable, Displayable {
     let id: Int
     let title: String
     let thumbnail: Thumbnail
