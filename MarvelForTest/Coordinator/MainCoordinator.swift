@@ -19,6 +19,19 @@ class MainCoordinator: CoordinatorType {
     func start() {
         let marvelService = MarvelService()
         let viewController = CharactersController(dataProvider: marvelService)
+        viewController.delegate = self
         navigationController.pushViewController(viewController, animated: true)
+    }
+    
+    fileprivate func showCharacterDetails(for character: MarvelCharacter) {
+        let marvelService = MarvelService()
+        let viewController = CharacterDetailController(character: character, dataProvider: marvelService)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+}
+
+extension MainCoordinator: CharactersControllerDelegate {
+    func characterSelected(_ character: MarvelCharacter) {
+        showCharacterDetails(for: character)
     }
 }

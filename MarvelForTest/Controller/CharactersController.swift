@@ -9,12 +9,17 @@
 import Foundation
 import AsyncDisplayKit
 
+protocol CharactersControllerDelegate: class {
+    func characterSelected(_ character: MarvelCharacter)
+}
+
 class CharactersController: ASViewController<ASDisplayNode> {
     
     // Properties
     var tableNode: ASTableNode {
         return node as! ASTableNode
     }
+    public weak var delegate: CharactersControllerDelegate?
     private let dataProvider: MarvelDataProvider
     private var characters = [MarvelCharacter]()
     
@@ -35,6 +40,13 @@ class CharactersController: ASViewController<ASDisplayNode> {
 }
 
 extension CharactersController: ASTableDelegate {
+    func tableNode(_ tableNode: ASTableNode, didSelectRowAt indexPath: IndexPath) {
+        defer { tableNode.deselectRow(at: indexPath, animated: true) }
+        
+        let character = characters[indexPath.section]
+        delegate?.characterSelected(character)
+    }
+    
     func tableNode(_ tableNode: ASTableNode, willBeginBatchFetchWith context: ASBatchContext) {
         
         dataProvider

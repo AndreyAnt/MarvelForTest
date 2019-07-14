@@ -1,5 +1,5 @@
 //
-//  Character.swift
+//  CharactersResponse.swift
 //  MarvelForTest
 //
 //  Created by user on 13/07/2019.
@@ -34,9 +34,9 @@ struct MarvelCharacter: Codable {
     let modified: String
     let thumbnail: Thumbnail
     let resourceURI: String
-    let comics, series: Comics
-    let stories: Stories
-    let events: Comics
+    let comics, series: URIResponse
+    let stories: URIResponse
+    let events: URIResponse
     let urls: [URLElement]
     
     enum CodingKeys: String, CodingKey {
@@ -46,30 +46,16 @@ struct MarvelCharacter: Codable {
     }
 }
 
-// MARK: - Comics
-struct Comics: Codable {
+// MARK: - ComicsResponse
+struct URIResponse: Codable {
     let available: Int
     let collectionURI: String
-    let items: [ComicsItem]
+    let items: [Item]
     let returned: Int
 }
 
-// MARK: - ComicsItem
-struct ComicsItem: Codable {
-    let resourceURI: String
-    let name: String
-}
-
-// MARK: - Stories
-struct Stories: Codable {
-    let available: Int
-    let collectionURI: String
-    let items: [StoriesItem]
-    let returned: Int
-}
-
-// MARK: - StoriesItem
-struct StoriesItem: Codable {
+// MARK: - Item
+struct Item: Codable {
     let resourceURI: String
     let name: String
 }
