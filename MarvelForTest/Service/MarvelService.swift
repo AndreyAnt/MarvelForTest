@@ -11,7 +11,7 @@ import PromiseKit
 
 protocol MarvelDataProvider {
     func fetchCharacters(offset: Int) -> Promise<[MarvelCharacter]>
-    func fetchComics(for character: MarvelCharacter) -> Promise<[Comics]>
+    func fetch<T: Fetchable>(_ type: T.Type, for character: MarvelCharacter) -> Promise<[T.DataOwner.Item]>
 }
 
 class MarvelService: MarvelDataProvider {
@@ -31,13 +31,13 @@ class MarvelService: MarvelDataProvider {
             .map { $0.data.characters }
     }
     
-    public func fetchComics(for character: MarvelCharacter) -> Promise<[Comics]> {
-        let method = "/v1/public/characters/\(character.id)/comics"
+    public func fetch<T: Fetchable>(_ type: T.Type, for character: MarvelCharacter) -> Promise<[T.DataOwner.Item]> {
+        let method = "/v1/public/characters/\(character.id)" + T.method
         let request = prepareRequest(for: method, offset: 0)
         
         return URLSession.shared.dataTask(.promise, with: request)
             .validate()
-            .map { try JSONDecoder().decode(ComicsResponse.self, from: $0.data) }
+            .map { try JSONDecoder().decode(T.self, from: $0.data) }
             .map { $0.data.results }
     }
     

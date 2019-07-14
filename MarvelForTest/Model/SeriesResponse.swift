@@ -9,7 +9,9 @@
 import Foundation
 
 // MARK: - SeriesResponse
-struct SeriesResponse: Codable {
+struct SeriesResponse: Fetchable {
+    static var method: String { return "/series" }
+    
     let code: Int
     let status, copyright, attributionText, attributionHTML: String
     let etag: String
@@ -17,7 +19,7 @@ struct SeriesResponse: Codable {
 }
 
 // MARK: - DataClass
-struct SeriesData: Codable {
+struct SeriesData: Codable, DisplayableOwner {
     let offset, limit, total, count: Int
     let results: [Series]
 }
@@ -27,9 +29,8 @@ struct Series: Codable, Displayable {
     let id: Int
     let title: String
     let thumbnail: Thumbnail
-    let images: [Thumbnail]
     
     enum CodingKeys: String, CodingKey {
-        case id, title, thumbnail, images
+        case id, title, thumbnail
     }
 }

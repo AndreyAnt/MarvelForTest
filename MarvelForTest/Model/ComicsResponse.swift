@@ -9,7 +9,9 @@
 import Foundation
 
 // MARK: - ComicsResponse
-struct ComicsResponse: Codable {
+struct ComicsResponse: Fetchable {
+    static var method: String { return "/comics" }
+    
     let code: Int
     let status, copyright, attributionText, attributionHTML: String
     let etag: String
@@ -17,7 +19,7 @@ struct ComicsResponse: Codable {
 }
 
 // MARK: - DataClass
-struct ComicsData: Codable {
+struct ComicsData: Codable, DisplayableOwner {
     let offset, limit, total, count: Int
     let results: [Comics]
 }

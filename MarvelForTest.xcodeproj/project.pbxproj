@@ -108,6 +108,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CE5AF08F22DB8A9E008D3707 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				CE5AF08B22DB86AB008D3707 /* Displayable.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		CEA3932922D9EEE9000CEB2A = {
 			isa = PBXGroup;
 			children = (
@@ -159,7 +167,7 @@
 				CEA3935722D9F414000CEB2A /* CharactersResponse.swift */,
 				CEA3936E22DA4F15000CEB2A /* ComicsResponse.swift */,
 				CE5AF08922DB85A6008D3707 /* SeriesResponse.swift */,
-				CE5AF08B22DB86AB008D3707 /* Displayable.swift */,
+				CE5AF08F22DB8A9E008D3707 /* Protocols */,
 			);
 			path = Model;
 			sourceTree = "<group>";

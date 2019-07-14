@@ -9,11 +9,12 @@
 import Foundation
 import AsyncDisplayKit
 
-class HorizontalScrollController: ASViewController<ASDisplayNode> {
+class HorizontalScrollController<T: Fetchable>: ASViewController<ASDisplayNode>, ASCollectionDelegate, ASCollectionDataSource {
     var collectionNode: ASCollectionNode {
         return node as! ASCollectionNode
     }
-    private var displayables = [Displayable]()
+    private typealias MarvelData = Displayable
+    private var displayables = [MarvelData]()
     private let character: MarvelCharacter
     private let dataProvider: MarvelDataProvider
     
@@ -36,7 +37,8 @@ class HorizontalScrollController: ASViewController<ASDisplayNode> {
     
     override func viewDidLoad() {
         dataProvider
-            .fetchComics(for: character)
+//            .fetchComics(for: character)
+            .fetch(T.self, for: character)
             .done { [weak self] displayable in
                 guard let self = self else { return }
                 self.insert(displayable)
@@ -45,7 +47,7 @@ class HorizontalScrollController: ASViewController<ASDisplayNode> {
         }
     }
     
-    private func insert(_ newDisplayables: [Displayable]) {
+    private func insert(_ newDisplayables: [MarvelData]) {
         var indexPaths = [IndexPath]()
         let newNumberOfSections = displayables.count + newDisplayables.count
         for item in displayables.count ..< newNumberOfSections {
@@ -55,9 +57,8 @@ class HorizontalScrollController: ASViewController<ASDisplayNode> {
         displayables.append(contentsOf: newDisplayables)
         collectionNode.insertItems(at: indexPaths)
     }
-}
 
-extension HorizontalScrollController: ASCollectionDelegate {
+    //MARK: - ASCollectionDelegate methods
     func collectionNode(_ collectionNode: ASCollectionNode, constrainedSizeForItemAt indexPath: IndexPath) -> ASSizeRange {
         let height = collectionNode.view.bounds.height
         let width = collectionNode.view.bounds.width/2
@@ -69,9 +70,8 @@ extension HorizontalScrollController: ASCollectionDelegate {
     func shouldBatchFetch(for collectionNode: ASCollectionNode) -> Bool {
         return false
     }
-}
 
-extension HorizontalScrollController: ASCollectionDataSource {
+    //MARK: - ASCollectionDataSource methods
     func collectionNode(_ collectionNode: ASCollectionNode, numberOfItemsInSection section: Int) -> Int {
         return displayables.count
     }

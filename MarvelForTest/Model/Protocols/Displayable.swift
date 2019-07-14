@@ -13,3 +13,16 @@ protocol Displayable {
     var title: String { get }
     var thumbnail: Thumbnail { get }
 }
+
+protocol DisplayableOwner {
+    associatedtype Item: Displayable
+    
+    var results: [Item] { get }
+}
+
+protocol Fetchable: Codable {
+    associatedtype DataOwner: DisplayableOwner
+    
+    var data: DataOwner { get }
+    static var method: String { get }
+}

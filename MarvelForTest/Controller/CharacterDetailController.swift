@@ -41,7 +41,7 @@ extension CharacterDetailController: ASTableDelegate {
 
 extension CharacterDetailController: ASTableDataSource {
     func numberOfSections(in tableNode: ASTableNode) -> Int {
-        return 6
+        return 2
     }
     
     func tableNode(_ tableNode: ASTableNode, numberOfRowsInSection section: Int) -> Int {
@@ -65,11 +65,23 @@ extension CharacterDetailController: ASTableDataSource {
     
     func tableNode(_ tableNode: ASTableNode, nodeForRowAt indexPath: IndexPath) -> ASCellNode {
         
-        let node = ASCellNode(viewControllerBlock: { () -> UIViewController in
-            return HorizontalScrollController(character: self.character, dataProvider: self.dataProvider)
-        })
-        node.style.maxSize = CGSize(width: 200, height: 350)
-        
-        return node
+        switch indexPath.section {
+        case 0:
+            let node = ASCellNode(viewControllerBlock: { () -> UIViewController in
+                return HorizontalScrollController<ComicsResponse>(character: self.character, dataProvider: self.dataProvider)
+            })
+            node.style.maxSize = CGSize(width: 200, height: 350)
+            
+            return node
+        case 1:
+            let node = ASCellNode(viewControllerBlock: { () -> UIViewController in
+                return HorizontalScrollController<SeriesResponse>(character: self.character, dataProvider: self.dataProvider)
+            })
+            node.style.maxSize = CGSize(width: 200, height: 350)
+            
+            return node
+        default:
+            preconditionFailure("Check number of sections properly")
+        }
     }
 }
