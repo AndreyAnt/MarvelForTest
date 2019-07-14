@@ -7,26 +7,26 @@
 //
 
 import UIKit
+import Swinject
 
 class MainCoordinator: CoordinatorType {
     var childCoordinators: [CoordinatorType] = []
     var navigationController: UINavigationController
+    let container: Container
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, container: Container) {
         self.navigationController = navigationController
+        self.container = container
     }
     
     func start() {
-        let marvelService = MarvelService()
-        let viewController = CharactersController(dataProvider: marvelService)
-        viewController.delegate = self
-        navigationController.pushViewController(viewController, animated: true)
+        let controller = container.resolve(CharactersController.self, argument: self as CharactersControllerDelegate)!
+        navigationController.pushViewController(controller, animated: true)
     }
     
     fileprivate func showCharacterDetails(for character: MarvelCharacter) {
-        let marvelService = MarvelService()
-        let viewController = CharacterDetailController(character: character, dataProvider: marvelService)
-        navigationController.pushViewController(viewController, animated: true)
+        let controller = container.resolve(CharacterDetailController.self, argument: character)!
+        navigationController.pushViewController(controller, animated: true)
     }
 }
 

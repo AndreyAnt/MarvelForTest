@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Swinject
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let navController = UINavigationController()
         
-        coordinator = MainCoordinator(navigationController: navController)
+        coordinator = MainCoordinator(navigationController: navController, container: makeDefaultContainer())
         coordinator?.start()
         
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -26,6 +27,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         return true
+    }
+    
+    private func makeDefaultContainer() -> Container {
+        return Container(parent: nil, defaultObjectScope: ObjectScope.container, behaviors: []) { container in
+            container.register(MarvelDataProvider.self, factory: { _ in
+                return MarvelService()
+            }).inObjectScope(.container)
+            
+            container.register(CharactersController.self, factory: { (resolver: Resolver, delegate: CharactersControllerDelegate)  in
+                let dataProvider = resolver.resolve(MarvelDataProvider.self)!
+                let controller = CharactersController(dataProvider: dataProvider)
+                controller.delegate = delegate
+                return controller
+            }).inObjectScope(.transient)
+            
+            container.register(CharacterDetailController.self, factory: { (resolver: Resolver, character: MarvelCharacter) in
+                let dataProvider = resolver.resolve(MarvelDataProvider.self)!
+                return CharacterDetailController(character: character, dataProvider: dataProvider)
+            }).inObjectScope(.transient)
+        }
     }
 }
 

@@ -8,6 +8,7 @@ target 'MarvelForTest' do
   # Pods for MarvelForTest
   pod 'Texture', '~> 2.8.1'
   pod 'PromiseKit', '~> 6.8.5'
+  pod 'Swinject', '~> 2.6.1'
 
   target 'MarvelForTestTests' do
     inherit! :search_paths
