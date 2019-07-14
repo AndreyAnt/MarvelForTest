@@ -13,7 +13,6 @@ class CharacterNode: ASCellNode {
     private let character: MarvelCharacter
     private let nameNode = ASTextNode()
     private let avatarImageNode = ASNetworkImageNode()
-    private let imageHeight: CGFloat = 100
     
     init(character: MarvelCharacter) {
         self.character = character
@@ -28,7 +27,7 @@ class CharacterNode: ASCellNode {
         addSubnode(nameNode)
         
         avatarImageNode.url = character.thumbnail.url
-        avatarImageNode.cornerRadius = imageHeight/2
+        avatarImageNode.cornerRadius = Constants.avatarHeight/2
         avatarImageNode.clipsToBounds = true
         avatarImageNode.shouldRenderProgressImages = true
         avatarImageNode.contentMode = .scaleAspectFill
@@ -36,8 +35,8 @@ class CharacterNode: ASCellNode {
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-        avatarImageNode.style.preferredSize = CGSize(width: imageHeight, height: imageHeight)
-        let insets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        avatarImageNode.style.preferredSize = CGSize(width: Constants.avatarHeight, height: Constants.avatarHeight)
+        let insets = UIEdgeInsets(top: 0, left: Constants.bigInset, bottom: 0, right: Constants.bigInset)
         let avatarWithInset = ASInsetLayoutSpec(insets: insets, child: avatarImageNode)
         
         let textCenterSpec = ASCenterLayoutSpec(centeringOptions: .Y, sizingOptions: [], child: nameNode)

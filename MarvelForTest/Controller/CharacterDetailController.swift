@@ -41,7 +41,7 @@ extension CharacterDetailController: ASTableDelegate {
 
 extension CharacterDetailController: ASTableDataSource {
     func numberOfSections(in tableNode: ASTableNode) -> Int {
-        return 2
+        return 3
     }
     
     func tableNode(_ tableNode: ASTableNode, numberOfRowsInSection section: Int) -> Int {
@@ -51,13 +51,11 @@ extension CharacterDetailController: ASTableDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
-            return "Comics"
+            return nil
         case 1:
-            return "Series"
+            return "Comics"
         case 2:
-            return "Stories"
-        case 3:
-            return "Events"
+            return "Series"
         default:
             return nil
         }
@@ -67,17 +65,19 @@ extension CharacterDetailController: ASTableDataSource {
         
         switch indexPath.section {
         case 0:
+            return CharacterDetailNode(character: character)
+        case 1:
             let node = ASCellNode(viewControllerBlock: { () -> UIViewController in
                 return HorizontalScrollController<ComicsResponse>(character: self.character, dataProvider: self.dataProvider)
             })
-            node.style.maxSize = CGSize(width: 200, height: 350)
+            node.style.maxSize = CGSize(width: Constants.comicsHeight, height: Constants.comicsHeight)
             
             return node
-        case 1:
+        case 2:
             let node = ASCellNode(viewControllerBlock: { () -> UIViewController in
                 return HorizontalScrollController<SeriesResponse>(character: self.character, dataProvider: self.dataProvider)
             })
-            node.style.maxSize = CGSize(width: 200, height: 350)
+            node.style.maxSize = CGSize(width: Constants.seriesHeight, height: Constants.seriesHeight)
             
             return node
         default:

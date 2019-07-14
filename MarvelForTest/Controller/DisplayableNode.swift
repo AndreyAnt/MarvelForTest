@@ -22,7 +22,7 @@ class DisplayableNode: ASCellNode {
     }
     
     private func setupSubnodes() {
-        nameNode.attributedText = NSAttributedString(string: displayable.title, attributes: [.font : UIFont.systemFont(ofSize: 16)])
+        nameNode.attributedText = NSAttributedString(string: displayable.title, attributes: Constants.titleFont)
         nameNode.backgroundColor = .white
         nameNode.maximumNumberOfLines = 2
         addSubnode(nameNode)
@@ -35,13 +35,16 @@ class DisplayableNode: ASCellNode {
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         avatarImageNode.style.preferredSize = CGSize(width: constrainedSize.min.width,
-                                                     height: constrainedSize.min.height - 50)
+                                                     height: constrainedSize.min.height - Constants.titleHeight)
+        
+        let insets = UIEdgeInsets(top: 0, left: Constants.smallInset, bottom: 0, right: Constants.smallInset)
+        let nameInsetSpec = ASInsetLayoutSpec(insets: insets, child: nameNode)
         
         let verticalStackSpec = ASStackLayoutSpec()
         verticalStackSpec.direction = .vertical
         verticalStackSpec.verticalAlignment = .bottom
-        verticalStackSpec.spacing = 6
-        verticalStackSpec.children = [nameNode, avatarImageNode]
+        verticalStackSpec.spacing = Constants.stackSpacing
+        verticalStackSpec.children = [nameInsetSpec, avatarImageNode]
         return verticalStackSpec
     }
 }
