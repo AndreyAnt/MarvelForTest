@@ -10,6 +10,7 @@ import Foundation
 import AsyncDisplayKit
 
 class CharacterDetailNode: ASCellNode {
+    //MARK: - Privates
     private let character: MarvelCharacter
     private let nameNode = ASTextNode()
     private let detailsNode = ASTextNode()
@@ -22,6 +23,7 @@ class CharacterDetailNode: ASCellNode {
         setupSubnodes()
     }
     
+    // Configuring subnodes helper func
     private func setupSubnodes() {
         avatarImageNode.url = character.thumbnail.url
         avatarImageNode.shouldRenderProgressImages = true

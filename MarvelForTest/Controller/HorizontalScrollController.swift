@@ -10,6 +10,7 @@ import Foundation
 import AsyncDisplayKit
 
 class HorizontalScrollController<T: Fetchable>: ASViewController<ASDisplayNode>, ASCollectionDelegate, ASCollectionDataSource {
+    //MARK: - Properties
     var collectionNode: ASCollectionNode {
         return node as! ASCollectionNode
     }
@@ -35,6 +36,7 @@ class HorizontalScrollController<T: Fetchable>: ASViewController<ASDisplayNode>,
         fatalError("init(coder:) has not been implemented")
     }
     
+    /// Loading this controller runs network request for fetching any data conforming to Displayable protocol
     override func viewDidLoad() {
         dataProvider
             .fetch(T.self, for: character)
@@ -46,6 +48,7 @@ class HorizontalScrollController<T: Fetchable>: ASViewController<ASDisplayNode>,
         }
     }
     
+    /// Helper func in order to insert new character into the table node.
     private func insert(_ newDisplayables: [MarvelData]) {
         var indexPaths = [IndexPath]()
         let newNumberOfSections = displayables.count + newDisplayables.count

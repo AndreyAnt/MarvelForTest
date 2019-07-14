@@ -25,7 +25,6 @@ class CharacterDetailController: ASViewController<ASDisplayNode> {
         let tableNode = ASTableNode(style: .plain)
         super.init(node: tableNode)
         
-        self.tableNode.delegate = self
         self.tableNode.dataSource = self
         self.tableNode.allowsSelection = false
     }
@@ -35,11 +34,11 @@ class CharacterDetailController: ASViewController<ASDisplayNode> {
     }
 }
 
-extension CharacterDetailController: ASTableDelegate {
-    
-}
-
 extension CharacterDetailController: ASTableDataSource {
+    /// Displaying three sections.
+    /// Topmost for big photo header with description.
+    /// Second is for comics collection with this character
+    /// Third one displays series in which this character took part.
     func numberOfSections(in tableNode: ASTableNode) -> Int {
         return 3
     }

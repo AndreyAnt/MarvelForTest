@@ -11,6 +11,10 @@ import var CommonCrypto.CC_MD5_DIGEST_LENGTH
 import func CommonCrypto.CC_MD5
 import typealias CommonCrypto.CC_LONG
 
+/// MD5 Hash calculating function.
+///
+/// - Parameter string: any input string
+/// - Returns: md5 hash value data
 public func MD5(string: String) -> Data {
     let length = Int(CC_MD5_DIGEST_LENGTH)
     let messageData = string.data(using:.utf8)!

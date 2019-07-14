@@ -8,10 +8,19 @@
 
 import Foundation
 
+/// Entities needed from item to be displayed in HorizontalScrollController
 protocol Displayable {
     var id: Int { get }
     var title: String { get }
     var thumbnail: Thumbnail { get }
+}
+
+/// Marvel response is commonly data conforming to this protocol
+protocol Fetchable: Codable {
+    associatedtype DataOwner: DisplayableOwner
+    
+    var data: DataOwner { get }
+    static var method: String { get }
 }
 
 protocol DisplayableOwner {
@@ -20,9 +29,4 @@ protocol DisplayableOwner {
     var results: [Item] { get }
 }
 
-protocol Fetchable: Codable {
-    associatedtype DataOwner: DisplayableOwner
-    
-    var data: DataOwner { get }
-    static var method: String { get }
-}
+

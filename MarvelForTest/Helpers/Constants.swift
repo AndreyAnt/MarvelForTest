@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// General sizing constants for the application.
 public enum Constants {
     static let smallInset: CGFloat = 8
     static let bigInset: CGFloat = 12

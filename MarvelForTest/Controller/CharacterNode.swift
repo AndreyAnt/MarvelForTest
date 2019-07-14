@@ -10,6 +10,7 @@ import Foundation
 import AsyncDisplayKit
 
 class CharacterNode: ASCellNode {
+    //MARK: - Private properties
     private let character: MarvelCharacter
     private let nameNode = ASTextNode()
     private let avatarImageNode = ASNetworkImageNode()
@@ -21,6 +22,7 @@ class CharacterNode: ASCellNode {
         setupSubnodes()
     }
     
+    // Configuring subnodes helper func
     private func setupSubnodes() {
         nameNode.attributedText = NSAttributedString(string: character.name, attributes: [.font : UIFont.systemFont(ofSize: 20)])
         nameNode.backgroundColor = .clear

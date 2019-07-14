@@ -18,8 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let navController = UINavigationController()
-        
-        coordinator = MainCoordinator(navigationController: navController, container: makeDefaultContainer())
+        let container = makeDefaultContainer()
+        coordinator = MainCoordinator(navigationController: navController, container: container)
         coordinator?.start()
         
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -29,6 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    /// Creates default application dependecies container.
+    ///
+    /// - Returns: Swinject container with bundled registrations
     private func makeDefaultContainer() -> Container {
         return Container(parent: nil, defaultObjectScope: ObjectScope.container, behaviors: []) { container in
             container.register(MarvelDataProvider.self, factory: { _ in

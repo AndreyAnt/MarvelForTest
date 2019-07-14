@@ -10,6 +10,7 @@ import Foundation
 import AsyncDisplayKit
 
 class DisplayableNode: ASCellNode {
+    //MARK: - Privates
     private let displayable: Displayable
     private let nameNode = ASTextNode()
     private let avatarImageNode = ASNetworkImageNode()
@@ -21,6 +22,7 @@ class DisplayableNode: ASCellNode {
         setupSubnodes()
     }
     
+    // Configuring subnodes helper func
     private func setupSubnodes() {
         nameNode.attributedText = NSAttributedString(string: displayable.title, attributes: Constants.titleFont)
         nameNode.backgroundColor = .white

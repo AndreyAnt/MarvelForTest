@@ -28,8 +28,10 @@ class CharactersController: ASViewController<ASDisplayNode> {
     }()
     public weak var delegate: CharactersControllerDelegate?
     private let dataProvider: MarvelDataProvider
+    // Displayed data. Initial state is empty.
     private var characters = [MarvelCharacter]()
     
+    //MARK: - Lifecycle
     init(dataProvider: MarvelDataProvider) {
         self.dataProvider = dataProvider
         
@@ -71,6 +73,7 @@ extension CharactersController: ASTableDelegate {
             self.activityIndicatorView.startAnimating()
         }
         
+        // In case of successfull fetch storing MarvelCharacters data and displaying it
         dataProvider
             .fetchCharacters(offset: characters.count)
             .ensure { [weak self] in
@@ -86,6 +89,9 @@ extension CharactersController: ASTableDelegate {
             }
     }
     
+    /// Helper func in order to insert new character into the table node.
+    ///
+    /// - Parameter newCharacters: inserted characters
     private func insert(_ newCharacters: [MarvelCharacter]) {
         
         var indexSet = IndexSet()
@@ -100,6 +106,7 @@ extension CharactersController: ASTableDelegate {
 }
 
 extension CharactersController: ASTableDataSource {
+    /// Each section relates to single character
     func numberOfSections(in tableNode: ASTableNode) -> Int {
         return characters.count
     }
