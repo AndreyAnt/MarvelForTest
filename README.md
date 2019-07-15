@@ -8,5 +8,5 @@ Network requests performed and arranged by URLSession + PromiseKit.
 
 Swinject was used for dependency injection.
 
-Persistance is not(yet?) implemented.
+Persistence is not(yet?) implemented.
 Unit tests is not(yet?) implemented.
